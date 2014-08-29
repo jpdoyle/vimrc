@@ -6,8 +6,11 @@ set nocompatible
 
 au!
 
+let s:vim_path = fnameescape(escape(expand('<sfile>:p'), '\')) . "/"
+" echo s:vim_path
+
 " Reload .vimrc automatically on save
-au BufWritePost .vimrc so ~/.vimrc
+au BufWritePost .vimrc so $MYVIMRC
 
 " Setting up Vundle
     let iCanHazVundle=1
@@ -21,48 +24,50 @@ au BufWritePost .vimrc so ~/.vimrc
     endif
     set rtp+=~/.vim/bundle/vundle/
     call vundle#rc()
-    Bundle 'gmarik/vundle'
+    Plugin 'gmarik/vundle'
     "Add your bundles here
     "uber awesome syntax and errors highlighter
-    Bundle 'Syntastic'
+    Plugin 'Syntastic'
     "Tim pope is a god.
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'tpope/vim-repeat'
-    Bundle 'tpope/vim-commentary'
-    Bundle 'tpope/vim-surround'
-    " Bundle 'tpope/vim-vinegar'
+    Plugin 'tpope/vim-fugitive'
+    Plugin 'tpope/vim-repeat'
+    Plugin 'tpope/vim-commentary'
+    Plugin 'tpope/vim-surround'
+    " Plugin 'tpope/vim-vinegar'
 
     "...All your other bundles...
-    Bundle 'a.vim'
-    Bundle 'minibufexpl.vim'
-    Bundle 'The-NERD-Tree'
-    Bundle 'itchyny/lightline.vim'
-    Bundle 'Markdown'
-    Bundle 'javacomplete'
-    Bundle 'Shougo/vimproc.vim'
-    Bundle 'tommcdo/vim-lion'
-    Bundle 'osyo-manga/vim-over'
-    Bundle 'justinmk/vim-sneak'
-    " Bundle 'goldfeld/vim-seek'
-    Bundle 'Rip-Rip/clang_complete'
-    Bundle 'airblade/vim-gitgutter'
-    " Bundle 'eagletmt/ghcmod-vim'
-    Bundle 'raichoo/haskell-vim'
-    " Bundle 'FredKSchott/CoVim'
-    Bundle 'jelera/vim-javascript-syntax'
-    Bundle 'vimwiki/vimwiki'
+    Plugin 'a.vim'
+    Plugin 'minibufexpl.vim'
+    Plugin 'The-NERD-Tree'
+    Plugin 'itchyny/lightline.vim'
+    Plugin 'Markdown'
+    Plugin 'javacomplete'
+    Plugin 'Shougo/vimproc.vim'
+    Plugin 'tommcdo/vim-lion'
+    Plugin 'osyo-manga/vim-over'
+    Plugin 'justinmk/vim-sneak'
+    " Plugin 'goldfeld/vim-seek'
+    Plugin 'Rip-Rip/clang_complete'
+    Plugin 'airblade/vim-gitgutter'
+    " Plugin 'eagletmt/ghcmod-vim'
+    Plugin 'raichoo/haskell-vim'
+    "
+    " Plugin 'FredKSchott/CoVim'
+    Plugin 'jelera/vim-javascript-syntax'
+    Bundle 'digitaltoad/vim-jade'
+    Plugin 'vimwiki/vimwiki'
 
     "My own stuff
-    Bundle 'ginto8/vim-darkcolors'
-    Bundle 'ginto8/vim-syntax'
-    Bundle 'ginto8/vim-build'
+    Plugin 'ginto8/vim-darkcolors'
+    Plugin 'ginto8/vim-syntax'
+    Plugin 'ginto8/vim-build'
 
     " Bundle 'noahfrederick/vim-noctu'
     "Bundle 'Valloric/YouCompleteMe'
     if iCanHazVundle == 0
         echo "Installing Bundles, please ignore key map error messages"
         echo ""
-        :BundleInstall
+        :PluginInstall
     endif
 " Setting up Vundle - the vim plugin bundler end
 
@@ -276,7 +281,9 @@ au! BufWinLeave * call clearmatches()
 au BufEnter *.tex setl tw=70
 
 au BufNewFile,BufRead *.hpp,*.cpp set syntax=cpp11 ft=cpp11 cindent
-au BufNewFile,BufRead *.hpp,*.cpp,*.h,*.c map <buffer> <Leader>f {=}
+au BufNewFile,BufRead *.hpp,*.cpp,*.h,*.c,*.c0 map <buffer> <Leader>f {=}
+
+au BufNewFile,BufRead *.c0 set syntax=c ft=c cindent
 
 au FileType haskell nnoremap <buffer> <Leader>s :GhcModType<CR>
 
