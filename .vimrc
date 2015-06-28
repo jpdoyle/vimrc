@@ -12,69 +12,116 @@ let s:vim_path = fnameescape(escape(expand('<sfile>:p'), '\')) . "/"
 " Reload .vimrc automatically on save
 au BufWritePost .vimrc so $MYVIMRC
 
-" Setting up Vundle
-    let iCanHazVundle=1
-    let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-    if !filereadable(vundle_readme)
-        echo "Installing Vundle.."
-        echo ""
-        silent !mkdir -p ~/.vim/bundle
-        silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
-        let iCanHazVundle=0
-    endif
-    set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
-    Plugin 'gmarik/vundle'
+" Setting up vim-plug
+let plugInstalled=1
+let plug_file=expand('~/.vim/autoload/plug.vim')
+if !filereadable(plug_file)
+    echo "Installing vim-plug.."
+    echo ""
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+\          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    let plugInstalled=0
+endif
+call plug#begin('~/.vim/plugged')
+    Plug 'junegunn/vim-plug'
     "Add your bundles here
     "uber awesome syntax and errors highlighter
-    Plugin 'Syntastic'
+    Plug 'Syntastic'
     "Tim pope is a god.
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'tpope/vim-repeat'
-    Plugin 'tpope/vim-commentary'
-    Plugin 'tpope/vim-surround'
-    " Plugin 'tpope/vim-vinegar'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
+    " Plug 'tpope/vim-vinegar'
 
     "...All your other bundles...
-    Plugin 'a.vim'
-    Plugin 'minibufexpl.vim'
-    Plugin 'The-NERD-Tree'
-    Plugin 'itchyny/lightline.vim'
-    Plugin 'Markdown'
-    Plugin 'javacomplete'
-    Plugin 'Shougo/vimproc.vim'
-    Plugin 'tommcdo/vim-lion'
-    Plugin 'osyo-manga/vim-over'
-    Plugin 'justinmk/vim-sneak'
-    " Plugin 'goldfeld/vim-seek'
-    Plugin 'Rip-Rip/clang_complete'
-    Plugin 'airblade/vim-gitgutter'
-    " Plugin 'eagletmt/ghcmod-vim'
-    Plugin 'raichoo/haskell-vim'
-    "
-    " Plugin 'FredKSchott/CoVim'
-    Plugin 'jelera/vim-javascript-syntax'
-    Bundle 'digitaltoad/vim-jade'
-    Plugin 'vimwiki/vimwiki'
+    Plug 'a.vim'
+    Plug 'minibufexpl.vim'
+    " Plug 'ap/vim-buftabline'
+    Plug 'The-NERD-Tree', {'on':'NERDTreeToggle'}
+    Plug 'itchyny/lightline.vim'
+    Plug 'Markdown'
+    Plug 'javacomplete'
+    Plug 'osyo-manga/vim-over'
+    Plug 'justinmk/vim-sneak'
+    " Plug 'goldfeld/vim-seek'
+    Plug 'Rip-Rip/clang_complete'
+    Plug 'airblade/vim-gitgutter'
+    " Plug 'eagletmt/ghcmod-vim'
+    " Plug 'Shougo/vimproc'
+    Plug 'raichoo/haskell-vim'
+    Plug 'lukerandall/haskellmode-vim'
+    Plug 'Twinside/vim-hoogle'
+
+    " Plug 'FredKSchott/CoVim'
+    Plug 'jelera/vim-javascript-syntax', {'for':'javascript' }
+    Plug 'digitaltoad/vim-jade', {'for':'javascript' }
+
+    Plug 'rust-lang/rust.vim'
+
+    Plug 'fatih/vim-go', {'for':'go' }
+
+    Plug 'avr.vim'
+
+    Plug 'camelcasemotion'
 
     "My own stuff
-    Plugin 'ginto8/vim-darkcolors'
-    Plugin 'ginto8/vim-syntax'
-    Plugin 'ginto8/vim-build'
+    Plug 'ginto8/vim-darkcolors'
+    Plug 'ginto8/vim-syntax'
+    Plug 'ginto8/vim-build'
 
     " Bundle 'noahfrederick/vim-noctu'
     "Bundle 'Valloric/YouCompleteMe'
-    if iCanHazVundle == 0
-        echo "Installing Bundles, please ignore key map error messages"
+    if plugInstalled == 0
+        echo "Installing plugins"
         echo ""
-        :PluginInstall
+        :PlugInstall
     endif
-" Setting up Vundle - the vim plugin bundler end
+call plug#end()
+
+filetype on
+filetype indent plugin on
+syntax on
+
+
+set hidden
+set wildmenu
+set showcmd
+set incsearch
+set hlsearch
+set nojoinspaces
+set ignorecase smartcase
+set backspace=indent,eol,start
+set autoindent nostartofline
+set ruler
+set laststatus=2
+set confirm
+set visualbell t_vb=
+set mouse=a
+set number norelativenumber
+set timeout ttimeout
+set timeoutlen=300 ttimeoutlen=300
+set shiftwidth=4 softtabstop=4 expandtab shiftround
+set nocursorline
+set completeopt=menu,menuone,longest
+set pumheight=15
+set tw=70
+
+
+let mapleader=';'
+noremap ;; ;
+
+" set background=dark
+colorscheme industry
+
+" Make gitgutter background same as line numbers
+highlight clear SignColumn
 
 " Hack to prevent the above au! from fucking up lightline
 if exists('g:resourced')
     execute lightline#colorscheme()
 endif
+
 let g:resourced=1
 
 let g:lightline = {
@@ -116,35 +163,6 @@ function! MyFugitive()
   return exists('*fugitive#head') ? fugitive#head() : ''
 endfunction
 
-filetype on
-filetype indent plugin on
-syntax on
-
-
-set hidden
-set wildmenu
-set showcmd
-set incsearch
-set hlsearch
-set ignorecase smartcase
-set backspace=indent,eol,start
-set autoindent nostartofline
-set ruler
-set laststatus=2
-set confirm
-set visualbell t_vb=
-set mouse=a
-set number norelativenumber
-set timeout ttimeout
-set timeoutlen=400 ttimeoutlen=400
-set shiftwidth=4 softtabstop=4 expandtab shiftround
-set nocursorline
-set completeopt=menu,menuone,longest
-set pumheight=15
-
-let mapleader=';'
-noremap ;; ;
-
 nnoremap / /\v
 vnoremap / /\v
 
@@ -156,8 +174,8 @@ set pastetoggle=<F1>
 au InsertLeave * set nopaste
 
 " Better escape
-inoremap <Leader>n <Esc>
-noremap <Leader>n <Esc>
+" inoremap <Leader>n <Esc>
+" noremap <Leader>n <Esc>
 inoremap <C-n> <Esc>
 noremap <C-n> <Esc>
 
@@ -171,10 +189,10 @@ noremap H ^
 noremap L $
 
 " Insert mode home-row movement
-imap <C-h> <Left>
-imap <C-j> <Down>
-imap <C-k> <Up>
-imap <C-l> <Right>
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
 
 " Easy window navigation
 " nnoremap <C-h> <C-w>h
@@ -183,12 +201,12 @@ imap <C-l> <Right>
 " nnoremap <C-l> <C-w>l
 
 " Movement is visual
-map j gj
-map k gk
+noremap j gj
+noremap k gk
 
-map Y y$
+noremap Y y$
 
-map ~ :NERDTreeToggle<CR>
+noremap ~ :NERDTreeToggle<CR>
 
 " quick-saving/quitting
 noremap <Leader>w :w<CR>
@@ -197,14 +215,10 @@ noremap <Leader>wa :wa<CR>
 inoremap <Leader>wa <Esc>:wa<CR>a
 
 noremap <Leader>q :q<CR>
-inoremap <Leader>q <Esc>:q<CR>a
 noremap <Leader>qa :qa<CR>
-inoremap <Leader>qa <Esc>:qa<CR>
 
 noremap <Leader>wq :wq<CR>
-inoremap <Leader>wq <Esc>:wq<CR>a
 noremap <Leader>wqa :wqa<CR>
-inoremap <Leader>wqa <Esc>:wqa<CR>a
 
 noremap <Leader>d :bd<CR>
 
@@ -273,9 +287,17 @@ imap <Leader><Tab> <C-X><C-U>
 " Highlight trailing whitespace
 highlight eolWS ctermbg=Red guibg=Red
 match eolWS /\s\+$/
+highlight OverLength ctermbg=darkred ctermfg=white guibg=#FFD9D9
+match OverLength /\%>70v.\+/
+
+au! BufWinEnter * match OverLength /\%>70v.\+/
+au! InsertEnter * match OverLength /\%>70v.\+/
+au! InsertLeave * match OverLength /\%>70v.\+/
+
 au! BufWinEnter * match eolWS /\s\+$/
 au! InsertEnter * match eolWS /\s\+\%#\#<!$/
 au! InsertLeave * match eolWS /\s\+$/
+
 au! BufWinLeave * call clearmatches()
 
 au BufEnter *.tex setl tw=70
@@ -285,13 +307,13 @@ au BufNewFile,BufRead *.hpp,*.cpp,*.h,*.c,*.c0 map <buffer> <Leader>f {=}
 
 au BufNewFile,BufRead *.c0 set syntax=c ft=c cindent
 
-au FileType haskell nnoremap <buffer> <Leader>s :GhcModType<CR>
+au BufRead,BufNewFile *.sig setlocal filetype=sml
+
+au FileType haskell compiler ghc
+let g:haddock_browser="dwb"
 
 " make <CR> in normal mode behave the way I expect it to
 au BufNewFile,BufRead * map <CR> j
-
-" Make gitgutter background same as line numbers
-highlight clear SignColumn
 
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
@@ -302,6 +324,4 @@ let g:NERDTreeDirArrows = 0
 
 let g:clang_close_preview=1
 let g:clang_user_options="-std=c++11"
-
-colorscheme Dim
 
