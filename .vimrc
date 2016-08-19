@@ -38,6 +38,7 @@ call plug#begin('~/.vim/plugged')
     "...All your other bundles...
     Plug 'a.vim'
     Plug 'minibufexpl.vim'
+    Plug 'industry.vim'
     Plug 'The-NERD-Tree', {'on':'NERDTreeToggle'}
     Plug 'itchyny/lightline.vim'
     Plug 'Markdown'
@@ -62,6 +63,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'camelcasemotion'
     Plug 'kien/ctrlp.vim'
     Plug 'rking/ag.vim'
+    Plug 'bronson/vim-visual-star-search'
 
     "My own stuff
     Plug 'ginto8/vim-darkcolors'
