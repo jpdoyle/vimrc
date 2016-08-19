@@ -9,6 +9,8 @@ au!
 let s:vim_path = fnameescape(escape(expand('<sfile>:p'), '\')) . "/"
 " echo s:vim_path
 
+" Header guard macro: i#ifndef "%p:s/\./_/g:s: \(.*/\)\?: :g;l$vaWUyyplciwdefineoki#endifkO
+
 " Reload .vimrc automatically on save
 au BufWritePost .vimrc so $MYVIMRC
 
@@ -32,46 +34,40 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-surround'
-    " Plug 'tpope/vim-vinegar'
 
     "...All your other bundles...
     Plug 'a.vim'
     Plug 'minibufexpl.vim'
-    " Plug 'ap/vim-buftabline'
     Plug 'The-NERD-Tree', {'on':'NERDTreeToggle'}
     Plug 'itchyny/lightline.vim'
     Plug 'Markdown'
     Plug 'javacomplete'
     Plug 'osyo-manga/vim-over'
     Plug 'justinmk/vim-sneak'
-    " Plug 'goldfeld/vim-seek'
-    Plug 'Rip-Rip/clang_complete'
+    " Plug 'Rip-Rip/clang_complete'
     Plug 'airblade/vim-gitgutter'
-    " Plug 'eagletmt/ghcmod-vim'
-    " Plug 'Shougo/vimproc'
-    Plug 'raichoo/haskell-vim'
-    Plug 'lukerandall/haskellmode-vim'
+    " Plug 'raichoo/haskell-vim'
+    " Plug 'lukerandall/haskellmode-vim'
     Plug 'Twinside/vim-hoogle'
 
-    " Plug 'FredKSchott/CoVim'
-    Plug 'jelera/vim-javascript-syntax', {'for':'javascript' }
-    Plug 'digitaltoad/vim-jade', {'for':'javascript' }
+    Plug 'jelera/vim-javascript-syntax', {'for':'javascript'}
+    Plug 'digitaltoad/vim-jade', {'for':'javascript'}
 
-    Plug 'rust-lang/rust.vim'
+    Plug 'rust-lang/rust.vim', {'for':'rust'}
 
     Plug 'fatih/vim-go', {'for':'go' }
 
     Plug 'avr.vim'
 
     Plug 'camelcasemotion'
+    Plug 'kien/ctrlp.vim'
+    Plug 'rking/ag.vim'
 
     "My own stuff
     Plug 'ginto8/vim-darkcolors'
     Plug 'ginto8/vim-syntax'
     Plug 'ginto8/vim-build'
 
-    " Bundle 'noahfrederick/vim-noctu'
-    "Bundle 'Valloric/YouCompleteMe'
     if plugInstalled == 0
         echo "Installing plugins"
         echo ""
@@ -106,6 +102,7 @@ set nocursorline
 set completeopt=menu,menuone,longest
 set pumheight=15
 set tw=70
+set ttymouse=xterm2
 
 
 let mapleader=';'
@@ -231,8 +228,7 @@ noremap <Leader>j :bp<CR>
 " noremap <C-l> :bn<CR>
 " noremap <C-h> :bp<CR>
 
-noremap <Leader>f gq
-nnoremap <Leader>f {gq}
+noremap <Leader>f :Ag<Space>
 
 " Word count, TeX and non
 noremap <Leader>tc :! detex % \| wc -w<CR>
@@ -284,6 +280,9 @@ inoremap {<CR> {<CR>}<Esc>O
 " Nicer completion prompting
 imap <Leader><Tab> <C-X><C-U>
 
+" Syntastic errors
+map <silent> <Leader>e :Errors<CR>
+
 " Highlight trailing whitespace
 highlight eolWS ctermbg=Red guibg=Red
 match eolWS /\s\+$/
@@ -303,13 +302,14 @@ au! BufWinLeave * call clearmatches()
 au BufEnter *.tex setl tw=70
 
 au BufNewFile,BufRead *.hpp,*.cpp set syntax=cpp11 ft=cpp11 cindent
-au BufNewFile,BufRead *.hpp,*.cpp,*.h,*.c,*.c0 map <buffer> <Leader>f {=}
 
 au BufNewFile,BufRead *.c0 set syntax=c ft=c cindent
 
 au BufRead,BufNewFile *.sig setlocal filetype=sml
 
-au FileType haskell compiler ghc
+au BufWritePost *.tex exe "silent Build" | redr!
+
+" au FileType haskell compiler ghc
 let g:haddock_browser="dwb"
 
 " make <CR> in normal mode behave the way I expect it to
@@ -324,4 +324,9 @@ let g:NERDTreeDirArrows = 0
 
 let g:clang_close_preview=1
 let g:clang_user_options="-std=c++11"
+let g:ag_working_path_mode="r"
+
+let g:tex_flavor='latex'
+
+" ggO€ku#define "*"%pcawuvaWUf.:s/./_/gu:€ku€kl€kl€kl€kl€kb\.yyplciwe€kbd€kbukciwifndefGo€ku$e€kb€kb#endif;w
 
