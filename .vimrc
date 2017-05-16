@@ -28,7 +28,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/vim-plug'
     "Add your bundles here
     "uber awesome syntax and errors highlighter
-    Plug 'Syntastic'
+    Plug 'vim-scripts/Syntastic'
     "Tim pope is a god.
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-repeat'
@@ -36,13 +36,13 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-surround'
 
     "...All your other bundles...
-    Plug 'a.vim'
-    Plug 'minibufexpl.vim'
-    Plug 'industry.vim'
-    Plug 'The-NERD-Tree', {'on':'NERDTreeToggle'}
+    Plug 'vim-scripts/a.vim'
+    Plug 'vim-scripts/minibufexpl.vim'
+    Plug 'vim-scripts/industry.vim'
+    Plug 'vim-scripts/The-NERD-Tree', {'on':'NERDTreeToggle'}
     Plug 'itchyny/lightline.vim'
-    Plug 'Markdown'
-    Plug 'javacomplete'
+    Plug 'vim-scripts/Markdown'
+    Plug 'vim-scripts/javacomplete'
     Plug 'osyo-manga/vim-over'
     Plug 'justinmk/vim-sneak'
     " Plug 'Rip-Rip/clang_complete'
@@ -58,17 +58,17 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'fatih/vim-go', {'for':'go' }
 
-    Plug 'avr.vim'
+    Plug 'vim-scripts/avr.vim'
 
-    Plug 'camelcasemotion'
+    Plug 'vim-scripts/camelcasemotion'
     Plug 'kien/ctrlp.vim'
     Plug 'rking/ag.vim'
     Plug 'bronson/vim-visual-star-search'
 
     "My own stuff
-    Plug 'ginto8/vim-darkcolors'
-    Plug 'ginto8/vim-syntax'
-    Plug 'ginto8/vim-build'
+    Plug 'jpdoyle/vim-darkcolors'
+    Plug 'jpdoyle/vim-syntax'
+    Plug 'jpdoyle/vim-build'
 
     if plugInstalled == 0
         echo "Installing plugins"
@@ -194,10 +194,10 @@ inoremap <C-k> <Up>
 inoremap <C-l> <Right>
 
 " Easy window navigation
-" nnoremap <C-h> <C-w>h
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " Movement is visual
 noremap j gj
@@ -309,7 +309,7 @@ au BufNewFile,BufRead *.c0 set syntax=c ft=c cindent
 
 au BufRead,BufNewFile *.sig setlocal filetype=sml
 
-au BufWritePost *.tex exe "silent Build" | redr!
+au BufWritePost *.tex exe "Build" | redr!
 
 " au FileType haskell compiler ghc
 let g:haddock_browser="dwb"
@@ -329,6 +329,8 @@ let g:clang_user_options="-std=c++11"
 let g:ag_working_path_mode="r"
 
 let g:tex_flavor='latex'
+
+let g:syntastic_mode_map = { 'passive_filetypes': ['hs'] }
 
 " ggO€ku#define "*"%pcawuvaWUf.:s/./_/gu:€ku€kl€kl€kl€kl€kb\.yyplciwe€kbd€kbukciwifndefGo€ku$e€kb€kb#endif;w
 
