@@ -25,6 +25,7 @@ if !filereadable(plug_file)
     let plugInstalled=0
 endif
 call plug#begin('~/.vim/plugged')
+    Plug 'VisualizeTheWorld/vim-verifast'
     Plug 'junegunn/vim-plug'
     "Add your bundles here
     "uber awesome syntax and errors highlighter
@@ -40,6 +41,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-scripts/minibufexpl.vim'
     Plug 'vim-scripts/industry.vim'
     Plug 'vim-scripts/The-NERD-Tree', {'on':'NERDTreeToggle'}
+    Plug 'jvoorhis/coq.vim', {'for':'coq'}
+    Plug 'let-def/vimbufsync', {'for':'coq'}
+    Plug 'jpdoyle/coquille', {'for':'coq', 'branch': 'pathogen-bundle'}
+
     Plug 'itchyny/lightline.vim'
     Plug 'vim-scripts/Markdown'
     Plug 'vim-scripts/javacomplete'
@@ -50,6 +55,7 @@ call plug#begin('~/.vim/plugged')
     " Plug 'raichoo/haskell-vim'
     " Plug 'lukerandall/haskellmode-vim'
     Plug 'Twinside/vim-hoogle'
+    Plug 'LnL7/vim-nix'
 
     Plug 'jelera/vim-javascript-syntax', {'for':'javascript'}
     Plug 'digitaltoad/vim-jade', {'for':'javascript'}
@@ -230,7 +236,7 @@ noremap <Leader>j :bp<CR>
 " noremap <C-l> :bn<CR>
 " noremap <C-h> :bp<CR>
 
-noremap <Leader>f :Ag<Space>
+" noremap <Leader>f :Ag<Space>
 
 " Word count, TeX and non
 noremap <Leader>tc :! detex % \| wc -w<CR>
@@ -268,7 +274,6 @@ noremap <Leader>m :Build<CR>
 
 noremap <Leader>r :Run<CR>
 
-map <Leader>s @a
 nnoremap Q @q
 vnoremap Q :norm @q<cr>
 
@@ -284,6 +289,12 @@ imap <Leader><Tab> <C-X><C-U>
 
 " Syntastic errors
 map <silent> <Leader>e :Errors<CR>
+
+noremap <Leader>x :CoqLaunch<CR>
+noremap <Leader>h :CoqToCursor<CR>
+inoremap <Leader>h <Esc>:CoqToCursor<CR>a
+noremap <Leader>s :CoqUndo<CR>
+au BufNewFile,BufRead *.v set ft=coq
 
 " Highlight trailing whitespace
 highlight eolWS ctermbg=Red guibg=Red
