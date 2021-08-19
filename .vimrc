@@ -25,7 +25,7 @@ if !filereadable(plug_file)
     let plugInstalled=0
 endif
 call plug#begin('~/.vim/plugged')
-    Plug 'VisualizeTheWorld/vim-verifast'
+    Plug 'jpdoyle/vim-verifast'
     Plug 'junegunn/vim-plug'
     "Add your bundles here
     "uber awesome syntax and errors highlighter
@@ -41,13 +41,15 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-scripts/minibufexpl.vim'
     Plug 'vim-scripts/industry.vim'
     Plug 'vim-scripts/The-NERD-Tree', {'on':'NERDTreeToggle'}
-    Plug 'jvoorhis/coq.vim', {'for':'coq'}
+    " Plug 'jvoorhis/coq.vim', {'for':'coq'}
     Plug 'let-def/vimbufsync', {'for':'coq'}
-    Plug 'jpdoyle/coquille', {'for':'coq', 'branch': 'pathogen-bundle'}
+    " Plug 'jpdoyle/coquille', {'for':'coq', 'branch': 'pathogen-bundle'}
+    Plug 'whonore/coqtail', {'for':'coq'}
 
     Plug 'itchyny/lightline.vim'
     Plug 'vim-scripts/Markdown'
     Plug 'vim-scripts/javacomplete'
+    Plug 'vim-scripts/Align'
     Plug 'osyo-manga/vim-over'
     Plug 'justinmk/vim-sneak'
     " Plug 'Rip-Rip/clang_complete'
@@ -110,7 +112,13 @@ set nocursorline
 set completeopt=menu,menuone,longest
 set pumheight=15
 set tw=70
-set ttymouse=xterm2
+
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
+
 
 
 let mapleader=';'
@@ -290,7 +298,9 @@ imap <Leader><Tab> <C-X><C-U>
 " Syntastic errors
 map <silent> <Leader>e :Errors<CR>
 
-noremap <Leader>x :CoqLaunch<CR>
+noremap <Leader>xz :%!xxd<CR>
+noremap <Leader>xm :%!xxd -r<CR>
+noremap <Leader>cx :CoqLaunch<CR>
 noremap <Leader>h :CoqToCursor<CR>
 inoremap <Leader>h <Esc>:CoqToCursor<CR>a
 noremap <Leader>s :CoqUndo<CR>
@@ -300,16 +310,15 @@ au BufNewFile,BufRead *.v set ft=coq
 highlight eolWS ctermbg=Red guibg=Red
 match eolWS /\s\+$/
 highlight OverLength ctermbg=darkred ctermfg=white guibg=#FFD9D9
-match OverLength /\%>70v.\+/
+2match OverLength /\%>75v.\+/
 
-au! BufWinEnter * match OverLength /\%>70v.\+/
-au! InsertEnter * match OverLength /\%>70v.\+/
-au! InsertLeave * match OverLength /\%>70v.\+/
+au! BufWinEnter * 2match OverLength /\%>75v.\+/
+au! InsertEnter * 2match OverLength /\%>75v.\+/
+au! InsertLeave * 2match OverLength /\%>75v.\+/
 
 au! BufWinEnter * match eolWS /\s\+$/
 au! InsertEnter * match eolWS /\s\+\%#\#<!$/
 au! InsertLeave * match eolWS /\s\+$/
-
 au! BufWinLeave * call clearmatches()
 
 au BufEnter *.tex setl tw=70
@@ -317,6 +326,7 @@ au BufEnter *.tex setl tw=70
 au BufNewFile,BufRead *.hpp,*.cpp set syntax=cpp11 ft=cpp11 cindent
 
 au BufNewFile,BufRead *.c0 set syntax=c ft=c cindent
+au BufNewFile,BufRead *.c,*.h,*.gh set syntax=verifast ft=verifast cindent
 
 au BufRead,BufNewFile *.sig setlocal filetype=sml
 
