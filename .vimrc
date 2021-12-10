@@ -43,7 +43,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-scripts/The-NERD-Tree', {'on':'NERDTreeToggle'}
     " Plug 'jvoorhis/coq.vim', {'for':'coq'}
     Plug 'let-def/vimbufsync', {'for':'coq'}
-    " Plug 'jpdoyle/coquille', {'for':'coq', 'branch': 'pathogen-bundle'}
     Plug 'whonore/coqtail', {'for':'coq'}
 
     Plug 'itchyny/lightline.vim'
@@ -111,7 +110,7 @@ set shiftwidth=4 softtabstop=4 expandtab shiftround
 set nocursorline
 set completeopt=menu,menuone,longest
 set pumheight=15
-set tw=70
+set tw=75
 
 if has("mouse_sgr")
     set ttymouse=sgr
@@ -319,9 +318,11 @@ au! InsertLeave * 2match OverLength /\%>75v.\+/
 au! BufWinEnter * match eolWS /\s\+$/
 au! InsertEnter * match eolWS /\s\+\%#\#<!$/
 au! InsertLeave * match eolWS /\s\+$/
+
 au! BufWinLeave * call clearmatches()
 
-au BufEnter *.tex setl tw=70
+au BufEnter *.tex setl tw=75
+au BufEnter,BufNewFile,BufRead *.rs setl tw=75
 
 au BufNewFile,BufRead *.hpp,*.cpp set syntax=cpp11 ft=cpp11 cindent
 
@@ -352,6 +353,12 @@ let g:ag_working_path_mode="r"
 let g:tex_flavor='latex'
 
 let g:syntastic_mode_map = { 'passive_filetypes': ['hs'] }
+
+let g:ctrlp_custom_ignore = {
+        \ 'dir': '\.git\|target$'
+        \ }
+
+let g:ctrlp_max_files = 100000
 
 " ggO€ku#define "*"%pcawuvaWUf.:s/./_/gu:€ku€kl€kl€kl€kl€kb\.yyplciwe€kbd€kbukciwifndefGo€ku$e€kb€kb#endif;w
 
